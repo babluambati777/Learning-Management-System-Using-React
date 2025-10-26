@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 // Enable CORS
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:3000',
+    origin:[ process.env.CLIENT_URL || 'http://localhost:3000','https://learning-management-system-using-react.onrender.com'],
     credentials: true,
   })
 );
