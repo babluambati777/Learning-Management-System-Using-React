@@ -3,6 +3,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const errorHandler = require('./middleware/errorHandler');
+const path = require('path');
 
 // Load env vars
 dotenv.config();
@@ -13,26 +14,28 @@ connectDB();
 // Initialize express
 const app = express();
 
-// Body parser middleware
+// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Enable CORS
+// ✅ Secure & Flexible CORS
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:3000',
+    origin: process.env.CLIENT_URL || 'https://learning-management-system-using-react.onrender.com/',
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
   })
 );
 
 // Import routes
-const authRoutes = require('./routes/authRoutes');  // ADD THIS
+const authRoutes = require('./routes/authRoutes');
 const batchRoutes = require('./routes/batchRoutes');
 const studentRoutes = require('./routes/studentRoutes');
 const markRoutes = require('./routes/markRoutes');
 
 // Mount routes
-app.use('/api/auth', authRoutes);  // ADD THIS
+app.use('/api/auth', authRoutes);
 app.use('/api/batches', batchRoutes);
 app.use('/api/students', studentRoutes);
 app.use('/api/marks', markRoutes);
@@ -43,7 +46,7 @@ app.get('/', (req, res) => {
     message: 'Welcome to Simple LMS API',
     version: '1.0.0',
     endpoints: {
-      auth: '/api/auth',  // ADD THIS
+      auth: '/api/auth',
       batches: '/api/batches',
       students: '/api/students',
       marks: '/api/marks',

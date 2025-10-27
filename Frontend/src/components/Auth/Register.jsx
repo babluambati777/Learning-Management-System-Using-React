@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import { authAPI } from "../../services/api";
 import "./Auth.css";
 
 const Register = () => {
@@ -11,23 +11,20 @@ const Register = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    
+
     if (password.length < 6) {
       alert("Password must be at least 6 characters");
       return;
     }
-    
+
     setLoading(true);
-    
+
     try {
-      await axios.post("http://localhost:5000/api/auth/register", {
-        email,
-        password,
-      });
+      await authAPI.register({ email, password });
       alert("Registration successful! Please login.");
       navigate("/login");
     } catch (err) {
-      alert(err.response?.data?.msg || "Registration failed");
+      alert(err.response?.data?.msg || "Registration failed. Try again.");
     } finally {
       setLoading(false);
     }
@@ -55,7 +52,7 @@ const Register = () => {
             minLength="6"
           />
           <button type="submit" disabled={loading}>
-            {loading ? 'Creating account...' : 'Register'}
+            {loading ? "Creating account..." : "Register"}
           </button>
         </form>
         <p className="switch-text">

@@ -1,7 +1,6 @@
-// Login.jsx
 import React, { useState } from "react";
-import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import { authAPI } from "../../services/api";
 import "./Auth.css";
 
 const Login = ({ setToken }) => {
@@ -15,17 +14,16 @@ const Login = ({ setToken }) => {
     setLoading(true);
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", {
-        email,
-        password,
-      });
+      const res = await authAPI.login({ email, password });
+      const { token, data } = res.data;
 
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data.data));
-      setToken(res.data.token); // ✅ triggers Navbar render
-      navigate("/Dashboard");
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(data));
+
+      setToken(token); // triggers Navbar rerender if needed
+      navigate("/dashboard");
     } catch (err) {
-      alert(err.response?.data?.msg || "Invalid credentials");
+      alert(err.response?.data?.msg || "Invalid credentials. Try again.");
     } finally {
       setLoading(false);
     }
@@ -53,11 +51,11 @@ const Login = ({ setToken }) => {
             minLength="6"
           />
           <button type="submit" disabled={loading}>
-            {loading ? 'Logging in...' : 'Login'}
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
         <p className="switch-text">
-          Don't have an account? <Link to="/register">Register</Link>
+          Don’t have an account? <Link to="/register">Register</Link>
         </p>
       </div>
     </div>

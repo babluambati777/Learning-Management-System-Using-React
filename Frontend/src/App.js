@@ -24,14 +24,14 @@ function App() {
       <div className="App">
         {token && <Navbar />}
         <Routes>
-          {/* Public Routes */}
+          
           <Route path="/login" element={token ? <Navigate to="/Dashboard" /> : <Login setToken={setToken} />} />
           <Route path="/register" element={token ? <Navigate to="/Dashboard" /> : <Register />} />
 
-          {/* Root Route */}
+          
           <Route path="/" element={token ? <Navigate to="/Dashboard" /> : <Navigate to="/login" />} />
 
-          {/* Protected Routes */}
+          
           <Route path="/Dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           <Route path="/batches" element={<ProtectedRoute><BatchList /></ProtectedRoute>} />
           <Route path="/batches/:id" element={<ProtectedRoute><BatchDetails /></ProtectedRoute>} />
