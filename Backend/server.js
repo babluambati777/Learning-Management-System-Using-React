@@ -21,9 +21,13 @@ app.use(express.urlencoded({ extended: true }));
 // ✅ Secure & Flexible CORS
 app.use(
   cors({
+<<<<<<< HEAD
     origin: process.env.CLIENT_URL || 'https://learning-management-system-using-react.onrender.com/',
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
+=======
+    origin:[ process.env.CLIENT_URL || 'http://localhost:3000','https://learning-management-system-using-react.onrender.com'],
+>>>>>>> 5a1e20429d7e909a6d1b280bd7e131adbec0fca7
     credentials: true,
   })
 );
