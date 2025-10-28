@@ -2,9 +2,9 @@
   "name": "frontend",
   "version": "1.0.0",
   "private": true,
-  "engines": {
-    "node": "18.x"
-  },
+ "engines": {
+  "node": "22.x"
+},
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
