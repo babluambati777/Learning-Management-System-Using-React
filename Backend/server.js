@@ -19,9 +19,20 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // ✅ Secure & Flexible CORS
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://simplelms.netlify.app'
+];
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || 'https://learning-management-system-using-react.onrender.com/',
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
